@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{{ object.username }}{% endblock %}
+
+{% block head %}
+  <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+  <div class="container">
+
+    <div id="contact-info" class="vcard">
+        <h1 class="fn">
+          {{ object.username|title }}
+          {% if object.short_bio %}
+            <br /><small style="font-size: 50%">{{ object.short_bio }}</small>
+          {% endif %}
+        </h1>
+        <p>
+          <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+          {{ object.get_profile_name|title }}
+          <br />
+          {% if object.email_public %}
+            <i class="fa fa-envelope" aria-hidden="true"></i><a class="email" href="mailto:{{ object.email }}">   {{ object.email }}</a><br />
+          {% endif %}
+          {% if object.job_title %}
+            <i class="fa fa-briefcase" aria-hidden="true"></i>  {{ object.job_title }} <br />
+          {% endif %}
+          {% if object.is_student %}
+            <i class="fas fa-graduation-cap" aria-hidden="true"></i>  Student <br />
+          {% endif %}
+          {% if object.is_teacher %}
+            <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i>  Teacher <br />
+          {% endif %}
+          {% if object.location %}
+            <i class="fa fa-map-marker" aria-hidden="true"></i>  {{ object.location }} <br />
+          {% endif %}
+        </p>
+    </div>
+    <div id="objective"><p>{{ object.bio }}</p></div>
+    <div class="clear"></div>
+    {% if object.personal_url %}
+      <a href="{{ object.personal_url }}" style="font-size: 2em" title="{% trans 'RSS Channel' %}"><i class="fa fa-rss"></i>  </a>
+    {% endif %}
+    {% if object.twitter_account %}
+      <a href="{{ object.twitter_account }}" style="font-size: 2em" title="{% trans 'Twitter Profile' %}"><i class="fa fa-twitter"></i>  </a>
+    {% endif %}
+    {% if object.github_account %}
+      <a href="{{ object.github_account }}" style="font-size: 2em" title="{% trans 'Github Profile' %}"><i class="fa fa-github"></i>  </a>
+    {% endif %}
+    {% if object.linkedin_account %}
+      <a href="{{ object.linkedin_account }}" style="font-size: 2em" title="{% trans 'LinkedIn Profile' %}"><i class="fa fa-linkedin"></i>  </a>
+    {% endif %}
+    {% if object.facebook_account %}
+      <a href="{{ object.facebook_account }}" style="font-size: 2em" title="{% trans 'Facebook Profile' %}"><i class="fa fa-facebook"></i>  </a>
+    {% endif %}
+    {% if object == request.user %}
+    <a class="btn btn-dark pull-right" href="{% url 'users:update'  %}">{% trans 'Update Profile' %}</a>
+    {% endif %}
+  </div>
+  {% if request.user.username == object.username %}
+    <!-- Data tiles -->
+    <!-- <div class="row tile_count">
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="fas fa-tasks"></i> {% trans 'Assignments Uploaded' %}</span>
+        <div class="count">{{ object.get_assignment_count }}</div>
+      </div>
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="fas fa-pencil-alt"></i> {% trans 'Articles' %}</span>
+        <div class="count">{{ object.get_article_count }}</div>
+      </div>
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="fas fa-comments"></i> {% trans 'Comments' %}</span>
+        <div class="count">{{ object.get_comments_count }}</div>
+      </div>
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="fas fa-question-circle"></i> {% trans 'Questions' %}</span>
+        <div class="count">{{ object.get_question_count }}</div>
+      </div>
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="fas fa-check-circle"></i> {% trans 'Answers' %}</span>
+        <div class="count">{{ object.get_answer_count }}</div>
+      </div>
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="fab fa-free-code-camp"></i> {% trans 'Global Interactions' %}</span>
+        <div class="count">0</div>
+      </div>
+    </div> -->
+    <!-- /data tiles -->
+  {% endif %}
+{% endblock content %}
